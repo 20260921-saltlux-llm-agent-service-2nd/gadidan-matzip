@@ -44,8 +44,13 @@ public class Application {
         String password = readText(scanner, "사용할 패스워드를 입력하세요: ");
         String userName = readText(scanner, "사용자명을 입력해 주세요: ");
 
+        if(userName.equals("")) {
+            controller.signUp(userId, password);
+        } else {
+            controller.signUp(userId, password, userName);
+        }
+
         // TODO: Controller에서 회원 가입 기능을 구현해주세용
-        controller.signUp(userId, password);
         ConsoleView.displayMessage(
                 userName + "님의 회원 가입 입력을 받았습니다. (처리 예정)");
     }
