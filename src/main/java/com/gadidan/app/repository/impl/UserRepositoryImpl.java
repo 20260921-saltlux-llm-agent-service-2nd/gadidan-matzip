@@ -82,4 +82,11 @@ public class UserRepositoryImpl implements UserRepository {
     public boolean logout() {
         return false; // todo: 더미값입니다. 수정 예정
     }
+
+    @Override
+    public boolean findUserById() {
+        // todo: Repository에 ID로 유저 찾는 함수 구현
+        // todo: 해당 함수 호출 결과에 따라 boolean 값 반환
+        return false;
+    }
 }
