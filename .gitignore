@@ -229,3 +229,14 @@ gradle-app.setting
 *.idea/
 *.properties
 **/*.properties
+
+# 에이전트 AI 산출물들
+# 로컬 개인 설정 및 권한 캐시 (팀 공유용 .claude/settings.json 제외)
+.claude/settings.local.json
+.claude/cache/
+.claude/sessions/
+*.local.md
+.codex/
+.openai/
+.agent/
+.agents-cache/
