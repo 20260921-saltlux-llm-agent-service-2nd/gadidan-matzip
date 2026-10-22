@@ -46,7 +46,6 @@ public class ReviewRepositoryImpl implements ReviewRepository {
             ResultSet rset = pstmt.executeQuery();
 
             while (rset.next()) {
-                // -------
                 RestaurantDto restaurantDto = new RestaurantDto();
                 restaurantDto.setRestaurantName(rset.getString("restaurant_name"));
                 restaurantDto.setBestMenu(rset.getString("best_menu"));
