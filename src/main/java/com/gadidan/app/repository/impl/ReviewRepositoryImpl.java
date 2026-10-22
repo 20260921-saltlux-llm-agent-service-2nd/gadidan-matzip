@@ -51,6 +51,8 @@ public class ReviewRepositoryImpl implements ReviewRepository {
                 restaurantDto.setBestMenu(rset.getString("best_menu"));
                 restaurantDto.setCategory(rset.getString("category"));
                 UserDto userDto = new UserDto();
+                userDto.setUserId(rset.getString("user_id"));
+                userDto.setName(rset.getString("name"));
 
                 reviewDtoList.add(new ReviewDto(
                         rset.getInt("review_id"),
