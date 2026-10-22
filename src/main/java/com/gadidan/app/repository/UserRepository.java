@@ -22,4 +22,6 @@ public interface UserRepository {
     /// 로그아웃
     /// @return 로그아웃 성공/실패 여부에 따른 Boolean 값
     public boolean logout();
+
+    public UserDto findUserById(String id);
 }

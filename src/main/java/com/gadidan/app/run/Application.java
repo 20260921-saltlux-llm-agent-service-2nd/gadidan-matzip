@@ -2,6 +2,7 @@ package com.gadidan.app.run;
 
 import com.gadidan.app.common.Category;
 import com.gadidan.app.controller.ReviewController;
+import com.gadidan.app.controller.UserController;
 import com.gadidan.app.view.ConsoleView;
 
 import java.util.NoSuchElementException;
@@ -12,6 +13,8 @@ import java.util.Scanner;
 // 위 설정의 실행 도구를 IntelliJ로 변경할 것!!
 // main/resources 경로에 db.properties 파일 생성할 것!!
 public class Application {
+    static UserController controller = new UserController();
+
     static ReviewController reviewController = new ReviewController();
 
 
@@ -41,14 +44,24 @@ public class Application {
     /// 회원 가입 선택 시 호출되는 함수
     /// @param scanner: 콘솔 입력에 사용하는 Scanner입니다.
     private static void signUp(Scanner scanner) {
+        boolean result = false;
+
         ConsoleView.displayMessage("회원 가입");
         String userId = readText(scanner, "사용할 ID를 입력하세요: ");
         String password = readText(scanner, "사용할 패스워드를 입력하세요: ");
         String userName = readText(scanner, "사용자명을 입력해 주세요: ");
 
-        // TODO: Controller에서 회원 가입 기능을 구현해주세용
-        ConsoleView.displayMessage(
-                userName + "님의 회원 가입 입력을 받았습니다. (처리 예정)");
+        if(userName.equals("")) {
+            result = controller.signUp(userId, password);
+        } else {
+            result = controller.signUp(userId, password, userName);
+        }
+
+        if(result) {
+            ConsoleView.displayMessage("회원 가입이 완료되었습니다.");
+        } else {
+            ConsoleView.displayMessage("회원 가입에 실패하였습니다.");
+        }
     }
 
     /// 로그인 선택 시 호출되는 함수

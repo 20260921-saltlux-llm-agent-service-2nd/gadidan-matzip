@@ -3,6 +3,15 @@
 <properties>
     <comment>SQL</comment>
 
+    <entry key="signupQuery">
+        insert into tbl_user(user_id, user_pw, name ) values (?, ?, ?);
+
+    </entry>
+
+    <entry key="IdValidation">
+        select * from tbl_user where user_id= ?;
+    </entry>
+
     <entry key="selectReviewsByScoreDesc">
         select *
         from tbl_review v
@@ -10,5 +19,7 @@
         join tbl_user u on v.tbl_user_id = u.id
         order by score desc, add_date desc
     </entry>
+
+
 
 </properties>
