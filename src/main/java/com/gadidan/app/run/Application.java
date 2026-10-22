@@ -1,5 +1,6 @@
 package com.gadidan.app.run;
 
+import com.gadidan.app.controller.UserController;
 import com.gadidan.app.view.ConsoleView;
 
 import java.util.NoSuchElementException;
@@ -10,6 +11,8 @@ import java.util.Scanner;
 // 위 설정의 실행 도구를 IntelliJ로 변경할 것!!
 // main/resources 경로에 db.properties 파일 생성할 것!!
 public class Application {
+    static UserController controller = new UserController();
+
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
             boolean running = true;
@@ -42,6 +45,7 @@ public class Application {
         String userName = readText(scanner, "사용자명을 입력해 주세요: ");
 
         // TODO: Controller에서 회원 가입 기능을 구현해주세용
+        controller.signUp(userId, password);
         ConsoleView.displayMessage(
                 userName + "님의 회원 가입 입력을 받았습니다. (처리 예정)");
     }
