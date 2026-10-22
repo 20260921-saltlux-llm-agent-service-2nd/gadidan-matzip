@@ -39,20 +39,24 @@ public class Application {
     /// 회원 가입 선택 시 호출되는 함수
     /// @param scanner: 콘솔 입력에 사용하는 Scanner입니다.
     private static void signUp(Scanner scanner) {
+        boolean result = false;
+
         ConsoleView.displayMessage("회원 가입");
         String userId = readText(scanner, "사용할 ID를 입력하세요: ");
         String password = readText(scanner, "사용할 패스워드를 입력하세요: ");
         String userName = readText(scanner, "사용자명을 입력해 주세요: ");
 
         if(userName.equals("")) {
-            controller.signUp(userId, password);
+            result = controller.signUp(userId, password);
         } else {
-            controller.signUp(userId, password, userName);
+            result = controller.signUp(userId, password, userName);
         }
 
-        // TODO: Controller에서 회원 가입 기능을 구현해주세용
-        ConsoleView.displayMessage(
-                userName + "님의 회원 가입 입력을 받았습니다. (처리 예정)");
+        if(result) {
+            ConsoleView.displayMessage("회원 가입이 완료되었습니다.");
+        } else {
+            ConsoleView.displayMessage("회원 가입에 실패하였습니다.");
+        }
     }
 
     /// 로그인 선택 시 호출되는 함수
