@@ -16,8 +16,8 @@ public class ReviewDto {
     private String comment;
     private LocalDate addDate;
     private LocalDate modifyDate;
-    private int tblUserId;
-    private int restaurantId;
+    private UserDto tblUser;
+    private RestaurantDto restaurant;
 
     @Override
     public String toString() {
@@ -27,8 +27,8 @@ public class ReviewDto {
                 ", comment='" + comment + '\'' +
                 ", addDate=" + addDate +
                 ", modifyDate=" + modifyDate +
-                ", tblUserId=" + tblUserId +
-                ", restaurantId=" + restaurantId +
+                ", tblUser=" + tblUser +
+                ", restaurant=" + restaurant +
                 '}';
     }
 }
