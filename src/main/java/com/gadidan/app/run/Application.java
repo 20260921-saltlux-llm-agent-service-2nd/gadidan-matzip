@@ -1,5 +1,7 @@
 package com.gadidan.app.run;
 
+import com.gadidan.app.common.Category;
+import com.gadidan.app.controller.ReviewController;
 import com.gadidan.app.controller.UserController;
 import com.gadidan.app.view.ConsoleView;
 
@@ -12,6 +14,9 @@ import java.util.Scanner;
 // main/resources 경로에 db.properties 파일 생성할 것!!
 public class Application {
     static UserController controller = new UserController();
+
+    static ReviewController reviewController = new ReviewController();
+
 
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
@@ -84,14 +89,14 @@ public class Application {
             switch (choice) {
                 case 1 -> ConsoleView.displayMessage(
                         "전체 리뷰 조회 기능을 연결할 예정입니다.");
-                case 2 -> ConsoleView.displayMessage(
-                        "리뷰 별점 순 조회 기능을 연결할 예정입니다.");
+                case 2 -> {
+                    reviewController.findReviewsByScoreDesc();
+//                    ConsoleView.displayMessage(
+//                        "리뷰 별점 순 조회 기능을 연결할 예정입니다.");
+                }
                 case 3 -> {
-                    String category = readText(
-                            scanner, "검색할 카테고리를 입력해 주세요: ");
-                    // TODO: 카테고리별 별점 조회 기능을 연결합니다.
-                    ConsoleView.displayMessage(
-                            category + " 카테고리 별점 조회 예정입니다.");
+                    Category category = readCategory(scanner);
+                    reviewController.findReviewsByCategory(category);
                 }
                 case 0 -> browsing = false;
                 default -> ConsoleView.displayMessage(
@@ -135,13 +140,15 @@ public class Application {
     private static void registerReview(Scanner scanner) {
         ConsoleView.displayMessage("리뷰 등록");
         String restaurantName = readText(scanner, "식당명: ");
+        Category category = readCategory(scanner);
         int rating = readNumber(scanner, "별점(정수): ");
         String mainMenu = readText(scanner, "대표메뉴: ");
         String comment = readText(scanner, "한줄평: ");
 
-        // TODO: 입력값과 UserSession의 사용자 정보로 리뷰를 등록합니다.
+        // TODO: 카테고리 등 입력값과 UserSession 정보로 리뷰를 등록합니다.
         ConsoleView.displayMessage(
-                restaurantName + " 리뷰 입력을 받았습니다. (등록 예정)");
+                restaurantName + " (" + category.getCategory()
+                        + ") 리뷰 입력을 받았습니다. (등록 예정)");
     }
 
     /// 로그인 -> 리뷰 삭제 시 호출되는 함수
@@ -174,6 +181,25 @@ public class Application {
         // TODO: 목록 번호에 해당하는 본인의 리뷰를 입력값으로 수정합니다.
         ConsoleView.displayMessage(
                 reviewNumber + "번 리뷰 수정 입력을 받았습니다. (처리 예정)");
+    }
+
+    /// 카테고리 번호를 입력받아 해당 열거 값을 반환하는 함수
+    /// @param scanner: 콘솔 입력에 사용하는 Scanner입니다.
+    private static Category readCategory(Scanner scanner) {
+        Category[] categories = Category.values();
+        ConsoleView.displayMessage("카테고리 선택");
+        for (int i = 0; i < categories.length; i++) {
+            ConsoleView.displayPrompt(
+                    (i + 1) + ". " + categories[i].getCategory() + "\n");
+        }
+
+        while (true) {
+            int choice = readNumber(scanner, "카테고리 번호: ");
+            if (choice >= 1 && choice <= categories.length) {
+                return categories[choice - 1];
+            }
+            ConsoleView.displayMessage("목록에 있는 번호를 입력해 주세요.");
+        }
     }
 
     /// 프롬프트를 먼저 출력하고 문자열을 입력 받는 함수
