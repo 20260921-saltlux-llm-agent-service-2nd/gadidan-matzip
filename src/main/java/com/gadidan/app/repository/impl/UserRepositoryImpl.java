@@ -84,9 +84,10 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public boolean findUserById() {
-        // todo: Repository에 ID로 유저 찾는 함수 구현
+    public UserDto findUserById(String id) {
+        UserDto result = null;
+        // todo: 해당 함수 기능 구현
         // todo: 해당 함수 호출 결과에 따라 boolean 값 반환
-        return false;
+        return result;
     }
 }

@@ -23,5 +23,5 @@ public interface UserRepository {
     /// @return 로그아웃 성공/실패 여부에 따른 Boolean 값
     public boolean logout();
 
-    public boolean findUserById();
+    public UserDto findUserById(String id);
 }
