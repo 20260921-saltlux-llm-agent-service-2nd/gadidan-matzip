@@ -10,6 +10,7 @@
 
     <entry key="IdValidation">
         select * from tbl_user where user_id= ?;
+    </entry>
 
     <entry key="selectReviewsByScoreDesc">
         select *
