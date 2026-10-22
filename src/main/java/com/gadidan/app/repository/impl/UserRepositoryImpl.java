@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
@@ -88,6 +89,39 @@ public class UserRepositoryImpl implements UserRepository {
         UserDto result = null;
         // todo: 해당 함수 기능 구현
         // todo: 해당 함수 호출 결과에 따라 boolean 값 반환
+
+        // 아이디 유효성 검사.
+        // 입력받은 아이디가 데이터베이스 있으면 저장못하게 할려고
+        // -> 사용자가입력한 id가 데이터베이스에 있으면 저장못함
+
+        String query = prop.getProperty("IdValidation");
+
+
+        try(
+                Connection con = JDBCTemplate.getConnection();
+                PreparedStatement pstm = con.prepareStatement(query)
+                ) {
+
+            pstm.setString(1,id);
+            ResultSet result1 = pstm.executeQuery();  // 커밋 전에 변수명 바꾸기.
+            if(result1 == null){
+                return result;
+            }
+            while (result1.next()){
+
+                result = new UserDto();
+                result.setId(result1.getInt("id"));
+                result.setUserId(result1.getString("user_id"));
+                result.setUserPw(result1.getNString("user_pw"));
+                result.setName(result1.getString("name"));
+
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
         return result;
     }
 }
