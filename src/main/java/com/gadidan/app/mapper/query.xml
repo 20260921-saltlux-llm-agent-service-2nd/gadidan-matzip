@@ -3,8 +3,9 @@
 <properties>
     <comment>SQL</comment>
 
-    <entry key="">
-        <!-- 쿼리문 입력하는 영역 -->
+    <entry key="signupQuery">
+        insert into tbl_user(user_id, user_pw, name ) values (?, ?, ?);
+
     </entry>
 
 </properties>
