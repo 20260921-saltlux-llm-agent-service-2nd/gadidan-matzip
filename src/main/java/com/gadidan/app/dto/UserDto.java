@@ -1,9 +1,6 @@
 package com.gadidan.app.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Setter
 @Getter
@@ -11,4 +8,18 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserDto {
     //TODO: user table의 컬럼과 일치하는 필드 구현
+    private int id;
+    private String userId;
+    private String userPw;
+    private String name;
+
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "id=" + id +
+                ", userId='" + userId + '\'' +
+                ", userPw='" + userPw + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
