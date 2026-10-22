@@ -13,7 +13,7 @@ public final class ConsoleView {
         displayMessage("리뷰 조회");
         System.out.println("1. 전체 리뷰 조회");
         System.out.println("2. 리뷰 별점 순 조회");
-        System.out.println("3. 카테고리 별 별점 조회");
+        System.out.println("3. 카테고리 별 리뷰 조회");
         System.out.println("0. 뒤로 가기");
     }
 

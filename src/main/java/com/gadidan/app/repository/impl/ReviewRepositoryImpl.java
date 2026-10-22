@@ -1,5 +1,6 @@
 package com.gadidan.app.repository.impl;
 
+import com.gadidan.app.common.Category;
 import com.gadidan.app.dto.ReviewDto;
 import com.gadidan.app.repository.ReviewRepository;
 
@@ -13,7 +14,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     }
 
     @Override
-    public List<ReviewDto> findReviewsByCategory(String category) {
+    public List<ReviewDto> findReviewsByCategory(Category category) {
         return List.of();  // todo: 더미값입니다. 수정 예정
     }
 
