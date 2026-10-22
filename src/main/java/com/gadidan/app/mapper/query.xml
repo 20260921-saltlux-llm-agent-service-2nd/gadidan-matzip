@@ -7,6 +7,7 @@
         select *
         from tbl_review v
         join tbl_restaurant r on v.restaurant_id = r.restaurant_id
+        join tbl_user u on v.tbl_user_id = u.id
         order by score desc, add_date desc
     </entry>
 
