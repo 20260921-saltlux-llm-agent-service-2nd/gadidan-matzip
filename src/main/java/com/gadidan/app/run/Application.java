@@ -106,9 +106,8 @@ public class Application {
     /// 로그인 완료 시 호출되는 함수
     /// @param scanner: 콘솔 입력에 사용하는 Scanner입니다.
     private static void showUserMenu(Scanner scanner) {
-        boolean loggedIn = true; // TODO: UserSession.isLogin()로 변경 예정
 
-        while (loggedIn) {
+        while (UserSession.isLogin()) {
             ConsoleView.displayUserMenu();
             int choice = readNumber(scanner, "선택: ");
 
@@ -117,14 +116,13 @@ public class Application {
                 case 2 -> deleteReview(scanner);
                 case 3 -> updateReview(scanner);
                 case 4 -> {
-                    ConsoleView.displayMessage("임시 로그아웃합니다.");
-                    loggedIn = false;
+                    userController.logout();
                 }
                 case 5 -> {
                     // TODO: 회원 탈퇴 처리 후 UserSession을 비웁니다.
                     ConsoleView.displayMessage(
                             "회원 탈퇴 처리 예정입니다. 첫 화면으로 이동합니다.");
-                    loggedIn = false;
+                    userController.logout();
                 }
                 default -> ConsoleView.displayMessage(
                         "메뉴에 있는 번호를 입력해 주세요.");
