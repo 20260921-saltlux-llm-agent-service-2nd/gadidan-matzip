@@ -12,6 +12,6 @@ public interface RestaurantRepository {
     /// 레스토랑 중복 등록 여부 확인
     /// @param restaurantDto 확인할 레스토랑 이름
     /// @return 등록된 레스토랑 ID, 존재하지 않으면 0
-    int findRestaurantByName(RestaurantDto restaurantDto);
+    int findRestaurantByName(String restaurantDto);
 
 }

@@ -3,7 +3,6 @@ package com.gadidan.app.repository.impl;
 import com.gadidan.app.common.JDBCTemplate;
 import com.gadidan.app.dto.RestaurantDto;
 import com.gadidan.app.repository.RestaurantRepository;
-import com.gadidan.app.view.ConsoleView;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -19,8 +18,8 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
         Properties prop = new Properties();
         int result;
 
-        try {
-            prop.loadFromXML(new FileInputStream("src/main/java/com/gadidan/app/mapper/query.xml"));
+        try (FileInputStream file = new FileInputStream("src/main/java/com/gadidan/app/mapper/query.xml")) {
+            prop.loadFromXML(file);
 
             try (PreparedStatement pstmt = con.prepareStatement(
                     prop.getProperty("insertRestaurant"),
@@ -32,15 +31,6 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 
                 result = pstmt.executeUpdate();
 
-                if (result > 0) {
-                    try (ResultSet rset = pstmt.getGeneratedKeys()) {
-                        if (rset.next()) {
-                            restaurantDto.setRestaurantId(rset.getInt(1));
-                        } else {
-                            throw new SQLException("등록된 식당 ID를 가져오지 못했습니다.");
-                        }
-                    }
-                }
             }
         } catch (IOException | SQLException e) {
             throw new RuntimeException(e);
@@ -50,23 +40,23 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
     }
 
     @Override
-    public int findRestaurantByName(RestaurantDto restaurantDto) {
+    public int findRestaurantByName(String restaurantName) {
 
         Connection con = JDBCTemplate.getConnection();
         Properties prop = new Properties();
-        int result=0;
+        int result = 0;
 
-        try {
-            prop.loadFromXML(new FileInputStream("src/main/java/com/gadidan/app/mapper/query.xml"));
+        try (FileInputStream file = new FileInputStream("src/main/java/com/gadidan/app/mapper/query.xml")) {
+            prop.loadFromXML(file);
 
             try (PreparedStatement pstmt = con.prepareStatement(
                     prop.getProperty("selectRestaurantByName"))) {
-                pstmt.setString(1, restaurantDto.getRestaurantName());
+
+                pstmt.setString(1, restaurantName);
 
                 try (ResultSet rset = pstmt.executeQuery()) {
                     if (rset.next()) {
-                        restaurantDto.setRestaurantId(rset.getInt("restaurant_id"));
-                        return 1;
+                        result = rset.getInt("restaurant_id");
                     }
                 }
             } catch (SQLException e) {
