@@ -21,7 +21,7 @@ public class ReviewController {
         if (!results.isEmpty()) {
             ConsoleView.displayReviewList(results);
         } else {
-            ConsoleView.displayPrompt("현재 등록된 리뷰가 없어서 출력이 불가능합니다.");
+            ConsoleView.displayMessage("현재 등록된 리뷰가 없어서 출력이 불가능합니다.");
         }
     }
 

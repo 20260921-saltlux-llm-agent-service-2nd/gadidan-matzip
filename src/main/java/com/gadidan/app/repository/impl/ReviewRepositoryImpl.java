@@ -82,15 +82,17 @@ public class ReviewRepositoryImpl implements ReviewRepository {
         Properties prop = new Properties();
 
         List<ReviewDto> reviewDtoList = new ArrayList<>();
-
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet rSet = null;
 
         try {
-            Connection con = JDBCTemplate.getConnection();
+
+            con = JDBCTemplate.getConnection();
             prop.loadFromXML(new FileInputStream("src/main/java/com/gadidan/app/mapper/query.xml"));
             String query = prop.getProperty("selectAllReviews");
-            PreparedStatement pstm = con.prepareStatement(query);
-
-            ResultSet rSet = pstm.executeQuery();
+            pstm = con.prepareStatement(query);
+            rSet = pstm.executeQuery();
 
 
             while (rSet.next()) {
@@ -120,14 +122,12 @@ public class ReviewRepositoryImpl implements ReviewRepository {
             }
 
 
-        } catch (FileNotFoundException e) {
+        } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
-        } catch (InvalidPropertiesFormatException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } finally {
+            JDBCTemplate.close(rSet);
+            JDBCTemplate.close(pstm);
+            JDBCTemplate.close(con);
         }
 
 
