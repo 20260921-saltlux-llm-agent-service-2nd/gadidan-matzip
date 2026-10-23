@@ -77,6 +77,13 @@ public class UserController {
         }
     }
 
+    public void logout() {
+        UserSession.removeUserInfo();
+        if(!UserSession.isLogin()) {
+            ConsoleView.displayMessage("로그아웃되었습니다.");
+        }
+    }
+
     private boolean validateId(String id) {
         if(id == null || id.equals("") || id.length() < 1) {
             return false;
