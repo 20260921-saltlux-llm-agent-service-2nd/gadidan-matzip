@@ -23,13 +23,12 @@ public class ReviewController {
         } else {
             ConsoleView.displayPrompt("현재 등록된 리뷰가 없어서 출력이 불가능합니다.");
         }
-
     }
 
     public void findReviewsByScoreDesc() {
         // TODO: 반환된 리스트를 사용자에게 출력하는 기능 구현
         List<ReviewDto> results = repository.findReviewsByScoreDesc();
-        if(!results.isEmpty()) {
+        if (!results.isEmpty()) {
             ConsoleView.displayReviewList(repository.findReviewsByScoreDesc());
         } else {
             ConsoleView.displayPrompt("현재 등록된 리뷰가 없어서 출력이 불가능합니다.");
