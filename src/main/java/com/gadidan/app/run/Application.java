@@ -87,8 +87,11 @@ public class Application {
             int choice = readNumber(scanner, "선택: ");
 
             switch (choice) {
-                case 1 -> ConsoleView.displayMessage(
+                case 1 -> {
+                        reviewController.findReviews();
+                        ConsoleView.displayMessage(
                         "전체 리뷰 조회 기능을 연결할 예정입니다.");
+                }
                 case 2 -> {
                     reviewController.findReviewsByScoreDesc();
 //                    ConsoleView.displayMessage(

@@ -20,6 +20,12 @@
         order by score desc, add_date desc
     </entry>
 
+    <entry key="selectAllReviews">
+        select * from tbl_review v join tbl_user u on v.tbl_user_id = u.id
+        join tbl_restaurant t on v.restaurant_id = t.restaurant_id
+        order by v.add_date desc;
+    </entry>
+
 
 
 </properties>

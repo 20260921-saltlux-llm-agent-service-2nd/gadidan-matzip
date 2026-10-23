@@ -8,6 +8,7 @@ import com.gadidan.app.dto.UserDto;
 import com.gadidan.app.repository.ReviewRepository;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.InvalidPropertiesFormatException;
 import java.util.List;
 import java.util.Properties;
 
@@ -75,7 +77,62 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public List<ReviewDto> findReviews() {
-        return List.of();  // todo: 더미값입니다. 수정 예정
+
+
+        Properties prop = new Properties();
+
+        List<ReviewDto> reviewDtoList = new ArrayList<>();
+
+
+        try {
+            Connection con = JDBCTemplate.getConnection();
+            prop.loadFromXML(new FileInputStream("src/main/java/com/gadidan/app/mapper/query.xml"));
+            String query = prop.getProperty("selectAllReviews");
+            PreparedStatement pstm = con.prepareStatement(query);
+
+            ResultSet rSet = pstm.executeQuery();
+
+
+            while (rSet.next()) {
+
+
+                UserDto userDto = new UserDto();
+                userDto.setUserId(rSet.getString("user_id"));
+                userDto.setName(rSet.getString("name"));
+
+                RestaurantDto restaurantDto = new RestaurantDto();
+                restaurantDto.setRestaurantName(rSet.getString("restaurant_name"));
+                restaurantDto.setBestMenu(rSet.getString("best_menu"));
+                restaurantDto.setCategory(rSet.getString("category"));
+
+
+                reviewDtoList.add(new ReviewDto(
+                        rSet.getInt("review_id"),
+                        rSet.getInt("score"),
+                        rSet.getString("comment"),
+                        rSet.getObject("add_date", LocalDate.class),
+                        rSet.getObject("modify_date", LocalDate.class),
+                        userDto,
+                        restaurantDto
+                ));
+
+
+            }
+
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (InvalidPropertiesFormatException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return reviewDtoList;
+        // todo: 더미값입니다. 수정 예정
     }
 
     @Override
