@@ -1,6 +1,7 @@
 package com.gadidan.app.run;
 
 import com.gadidan.app.common.Category;
+import com.gadidan.app.common.UserSession;
 import com.gadidan.app.controller.ReviewController;
 import com.gadidan.app.controller.UserController;
 import com.gadidan.app.view.ConsoleView;
@@ -13,8 +14,7 @@ import java.util.Scanner;
 // 위 설정의 실행 도구를 IntelliJ로 변경할 것!!
 // main/resources 경로에 db.properties 파일 생성할 것!!
 public class Application {
-    static UserController controller = new UserController();
-
+    static UserController userController = new UserController();
     static ReviewController reviewController = new ReviewController();
 
 
@@ -52,9 +52,9 @@ public class Application {
         String userName = readText(scanner, "사용자명을 입력해 주세요: ");
 
         if(userName.equals("")) {
-            result = controller.signUp(userId, password);
+            result = userController.signUp(userId, password);
         } else {
-            result = controller.signUp(userId, password, userName);
+            result = userController.signUp(userId, password, userName);
         }
 
         if(result) {
@@ -70,11 +70,9 @@ public class Application {
         ConsoleView.displayMessage("로그인");
         String userId = readText(scanner, "ID를 입력하세요: ");
         String password = readText(scanner, "패스워드를 입력하세요: ");
-
-        // TODO: 인증 성공 시 UserSession에 로그인 정보를 저장 예정
-        ConsoleView.displayMessage(
-                "인증 연동 전입니다. 임시 로그인 화면으로 이동합니다.");
-        showUserMenu(scanner);
+        if(userController.login(userId, password)){
+            showUserMenu(scanner);
+        }
     }
 
     /// 리뷰 조회 선택 시 호출되는 함수
@@ -108,7 +106,7 @@ public class Application {
     /// 로그인 완료 시 호출되는 함수
     /// @param scanner: 콘솔 입력에 사용하는 Scanner입니다.
     private static void showUserMenu(Scanner scanner) {
-        boolean loggedIn = true;
+        boolean loggedIn = true; // TODO: UserSession.isLogin()로 변경 예정
 
         while (loggedIn) {
             ConsoleView.displayUserMenu();
@@ -119,7 +117,6 @@ public class Application {
                 case 2 -> deleteReview(scanner);
                 case 3 -> updateReview(scanner);
                 case 4 -> {
-                    // TODO: UserSession의 로그인 정보를 비웁니다.
                     ConsoleView.displayMessage("임시 로그아웃합니다.");
                     loggedIn = false;
                 }
