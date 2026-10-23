@@ -3,8 +3,11 @@ package com.gadidan.app.run;
 import com.gadidan.app.common.Category;
 import com.gadidan.app.common.DatabaseConnectionException;
 import com.gadidan.app.common.UserSession;
+import com.gadidan.app.controller.RestaurantController;
 import com.gadidan.app.controller.ReviewController;
 import com.gadidan.app.controller.UserController;
+import com.gadidan.app.dto.RestaurantDto;
+import com.gadidan.app.dto.ReviewDto;
 import com.gadidan.app.view.ConsoleView;
 
 import java.util.NoSuchElementException;
@@ -17,6 +20,7 @@ import java.util.Scanner;
 public class Application {
     static UserController userController = new UserController();
     static ReviewController reviewController = new ReviewController();
+    static RestaurantController restaurantController = new RestaurantController();
 
 
     public static void main(String[] args) {
@@ -48,6 +52,7 @@ public class Application {
     }
 
     /// 회원 가입 선택 시 호출되는 함수
+    ///
     /// @param scanner: 콘솔 입력에 사용하는 Scanner입니다.
     private static void signUp(Scanner scanner) {
         boolean result = false;
@@ -57,13 +62,13 @@ public class Application {
         String password = readText(scanner, "사용할 패스워드를 입력하세요: ");
         String userName = readText(scanner, "사용자명을 입력해 주세요: ");
 
-        if(userName.equals("")) {
+        if (userName.equals("")) {
             result = userController.signUp(userId, password);
         } else {
             result = userController.signUp(userId, password, userName);
         }
 
-        if(result) {
+        if (result) {
             ConsoleView.displayMessage("회원 가입이 완료되었습니다.");
         } else {
             ConsoleView.displayMessage("회원 가입에 실패하였습니다.");
@@ -71,17 +76,19 @@ public class Application {
     }
 
     /// 로그인 선택 시 호출되는 함수
+    ///
     /// @param scanner: 콘솔 입력에 사용하는 Scanner입니다.
     private static void login(Scanner scanner) {
         ConsoleView.displayMessage("로그인");
         String userId = readText(scanner, "ID를 입력하세요: ");
         String password = readText(scanner, "패스워드를 입력하세요: ");
-        if(userController.login(userId, password)){
+        if (userController.login(userId, password)) {
             showUserMenu(scanner);
         }
     }
 
     /// 리뷰 조회 선택 시 호출되는 함수
+    ///
     /// @param scanner: 콘솔 입력에 사용하는 Scanner입니다.
     private static void browseReviews(Scanner scanner) {
         boolean browsing = true;
@@ -92,7 +99,7 @@ public class Application {
 
             switch (choice) {
                 case 1 -> {
-                        reviewController.findReviews();
+                    reviewController.findReviews();
                 }
                 case 2 -> {
                     reviewController.findReviewsByScoreDesc();
@@ -111,6 +118,7 @@ public class Application {
     }
 
     /// 로그인 완료 시 호출되는 함수
+    ///
     /// @param scanner: 콘솔 입력에 사용하는 Scanner입니다.
     private static void showUserMenu(Scanner scanner) {
 
@@ -138,6 +146,7 @@ public class Application {
     }
 
     /// 로그인 -> 리뷰 등록 시 호출되는 함수
+    ///
     /// @param scanner: 콘솔 입력에 사용하는 Scanner입니다.
     private static void registerReview(Scanner scanner) {
         ConsoleView.displayMessage("리뷰 등록");
@@ -147,13 +156,35 @@ public class Application {
         String mainMenu = readText(scanner, "대표메뉴: ");
         String comment = readText(scanner, "한줄평: ");
 
-        // TODO: 카테고리 등 입력값과 UserSession 정보로 리뷰를 등록합니다.
-        ConsoleView.displayMessage(
-                restaurantName + " (" + category.getCategory()
-                        + ") 리뷰 입력을 받았습니다. (등록 예정)");
+        int restaurantId = restaurantController.checkRestaurantExists(restaurantName);
+
+        RestaurantDto restaurantDto = new RestaurantDto();
+        restaurantDto.setRestaurantId(restaurantId);
+        restaurantDto.setRestaurantName(restaurantName);
+        restaurantDto.setBestMenu(mainMenu);
+        restaurantDto.setCategory(category.getCategory());
+
+        if (restaurantId > 0) {
+            restaurantDto.setRestaurantId(restaurantId);
+        } else {
+            int result = restaurantController.registerRestaurant(restaurantDto);
+
+            if (result <= 0) {
+                return;
+            }
+        }
+
+        ReviewDto reviewDto = new ReviewDto();
+        reviewDto.setScore(rating);
+        reviewDto.setComment(comment);
+        reviewDto.setRestaurant(restaurantDto);
+        reviewDto.setTblUser(UserSession.getUserSession());
+
+        reviewController.registerReview(reviewDto);
     }
 
     /// 로그인 -> 리뷰 삭제 시 호출되는 함수
+    ///
     /// @param scanner: 콘솔 입력에 사용하는 Scanner입니다.
     private static void deleteReview(Scanner scanner) {
         ConsoleView.displayMessage("리뷰 삭제");
@@ -168,6 +199,7 @@ public class Application {
     }
 
     /// 로그인 -> 리뷰 수정 시 호출되는 함수
+    ///
     /// @param scanner: 콘솔 입력에 사용하는 Scanner입니다.
     private static void updateReview(Scanner scanner) {
         ConsoleView.displayMessage("리뷰 수정");
@@ -186,6 +218,7 @@ public class Application {
     }
 
     /// 카테고리 번호를 입력받아 해당 열거 값을 반환하는 함수
+    ///
     /// @param scanner: 콘솔 입력에 사용하는 Scanner입니다.
     private static Category readCategory(Scanner scanner) {
         Category[] categories = Category.values();
@@ -205,16 +238,18 @@ public class Application {
     }
 
     /// 프롬프트를 먼저 출력하고 문자열을 입력 받는 함수
+    ///
     /// @param scanner: 콘솔 입력에 사용하는 Scanner입니다.
-    /// @param prompt: 입력받기 전에 표시할 안내 문구입니다.
+    /// @param prompt:  입력받기 전에 표시할 안내 문구입니다.
     private static String readText(Scanner scanner, String prompt) {
         ConsoleView.displayPrompt(prompt);
         return scanner.nextLine();
     }
 
     /// 프롬프트를 먼저 출력하고 정수를 입력 받는 함수
+    ///
     /// @param scanner: 콘솔 입력에 사용하는 Scanner입니다.
-    /// @param prompt: 정수 입력을 안내하는 문구입니다.
+    /// @param prompt:  정수 입력을 안내하는 문구입니다.
     private static int readNumber(Scanner scanner, String prompt) {
         while (true) {
             String input = readText(scanner, prompt);
