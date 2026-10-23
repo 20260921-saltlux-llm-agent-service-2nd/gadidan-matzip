@@ -3,10 +3,15 @@ package com.gadidan.app.run;
 import com.gadidan.app.common.Category;
 import com.gadidan.app.common.DatabaseConnectionException;
 import com.gadidan.app.common.UserSession;
+import com.gadidan.app.controller.RestaurantController;
 import com.gadidan.app.controller.ReviewController;
 import com.gadidan.app.controller.UserController;
+import com.gadidan.app.dto.RestaurantDto;
+import com.gadidan.app.dto.ReviewDto;
+import com.gadidan.app.dto.UserDto;
 import com.gadidan.app.view.ConsoleView;
 
+import java.sql.Connection;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -17,6 +22,7 @@ import java.util.Scanner;
 public class Application {
     static UserController userController = new UserController();
     static ReviewController reviewController = new ReviewController();
+    static RestaurantController restaurantController = new RestaurantController();
 
 
     public static void main(String[] args) {
@@ -147,10 +153,23 @@ public class Application {
         String mainMenu = readText(scanner, "대표메뉴: ");
         String comment = readText(scanner, "한줄평: ");
 
-        // TODO: 카테고리 등 입력값과 UserSession 정보로 리뷰를 등록합니다.
-        ConsoleView.displayMessage(
-                restaurantName + " (" + category.getCategory()
-                        + ") 리뷰 입력을 받았습니다. (등록 예정)");
+        UserDto userDto = new UserDto();
+        userDto.setId(UserSession.getUserSession().getId());
+
+        RestaurantDto restaurantDto = new RestaurantDto();
+        restaurantDto.setRestaurantName(restaurantName);
+        restaurantDto.setBestMenu(mainMenu);
+        restaurantDto.setCategory(category.getCategory());
+
+        restaurantController.registerRestaurant(restaurantDto);
+
+        ReviewDto reviewDto = new ReviewDto();
+        reviewDto.setScore(rating);
+        reviewDto.setComment(comment);
+        reviewDto.setRestaurant(restaurantDto);
+        reviewDto.setTblUser(userDto);
+
+        reviewController.registerReview(reviewDto);
     }
 
     /// 로그인 -> 리뷰 삭제 시 호출되는 함수

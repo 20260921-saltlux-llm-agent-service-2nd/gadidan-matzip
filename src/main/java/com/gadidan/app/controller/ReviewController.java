@@ -6,7 +6,6 @@ import com.gadidan.app.repository.ReviewRepository;
 import com.gadidan.app.repository.impl.ReviewRepositoryImpl;
 import com.gadidan.app.view.ConsoleView;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class ReviewController {
@@ -44,5 +43,17 @@ public class ReviewController {
         } else {
             ConsoleView.displayPrompt("현재 " + category.getCategory() + " 카테고리에 등록된 리뷰가 없어서 출력이 불가능합니다.");
         }
+    }
+
+    public int registerReview(ReviewDto reviewDto) {
+        int result = repository.save(reviewDto);
+
+        if (result > 0) {
+            ConsoleView.displayMessage("리뷰 등록이 완료되었습니다.");
+        } else {
+            ConsoleView.displayMessage("리뷰 등록에 실패하였습니다.");
+        }
+
+        return result;
     }
 }
