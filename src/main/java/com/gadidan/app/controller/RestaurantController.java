@@ -13,14 +13,14 @@ public class RestaurantController {
     }
 
     public int checkRestaurantExists(String restaurantName) {
-        int Result = repository.findRestaurantByName(restaurantName);
+        int result = repository.findRestaurantByName(restaurantName);
 
-        if (Result > 0) {
+        if (result > 0) {
             int restaurantId = repository.findRestaurantByName(restaurantName);
             ConsoleView.displayMessage("식당이 이미 존재하므로 리뷰만 등록합니다.");
         }
 
-        return Result;
+        return result;
     }
 
     public int registerRestaurant(RestaurantDto restaurantDto) {
