@@ -42,7 +42,7 @@ public class UserRepositoryImpl implements UserRepository {
         //15글자 이하이면 insert
 
         String query = prop.getProperty("signupQuery");
-        int result =0;
+        int result = 0;
 
         try (
                 Connection con = JDBCTemplate.getConnection();
@@ -75,8 +75,28 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public boolean login(String userId, String password) {
-        return false; // todo: 더미값입니다. 수정 예정
+    public UserDto login(String userId, String password) {
+        UserDto user = null;
+        try (
+                Connection con = JDBCTemplate.getConnection();
+                PreparedStatement pstm = con.prepareStatement(prop.getProperty("loginQuery"));
+        ) {
+            pstm.setString(1, userId);
+            pstm.setString(2, password);
+            ResultSet resultSet = pstm.executeQuery();
+
+            if (resultSet.next())
+                user = new UserDto(
+                        resultSet.getInt("id"),
+                        resultSet.getString("user_id"),
+                        resultSet.getString("user_pw"),
+                        resultSet.getString("name")
+                );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return user;
     }
 
     @Override
@@ -97,17 +117,17 @@ public class UserRepositoryImpl implements UserRepository {
         String query = prop.getProperty("IdValidation");
 
 
-        try(
+        try (
                 Connection con = JDBCTemplate.getConnection();
                 PreparedStatement pstm = con.prepareStatement(query)
-                ) {
+        ) {
 
-            pstm.setString(1,id);
+            pstm.setString(1, id);
             ResultSet result1 = pstm.executeQuery();  // 커밋 전에 변수명 바꾸기.
-            if(result1 == null){
+            if (result1 == null) {
                 return result;
             }
-            while (result1.next()){
+            while (result1.next()) {
 
                 result = new UserDto();
                 result.setId(result1.getInt("id"));

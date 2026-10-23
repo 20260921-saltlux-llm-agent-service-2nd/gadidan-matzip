@@ -1,8 +1,10 @@
 package com.gadidan.app.controller;
 
+import com.gadidan.app.common.UserSession;
 import com.gadidan.app.dto.UserDto;
 import com.gadidan.app.repository.UserRepository;
 import com.gadidan.app.repository.impl.UserRepositoryImpl;
+import com.gadidan.app.view.ConsoleView;
 
 public class UserController {
     private UserRepository repository;
@@ -59,5 +61,33 @@ public class UserController {
     private boolean isDuplicatedUser(String id) {
         UserDto result = repository.findUserById(id);
         return result == null ? false : true;
+    }
+
+    public boolean login(String id, String pw) {
+        if (!validateId(id)) return false;
+        if (!validatePw(pw)) return false;
+
+        UserDto result = repository.login(id, pw);
+        if (result != null) {
+            UserSession.setUserInfo(result);
+            return true;
+        } else {
+            ConsoleView.displayMessage("로그인 실패.");
+            return false;
+        }
+    }
+
+    private boolean validateId(String id) {
+        if(id == null || id.equals("") || id.length() < 1) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validatePw(String pw) {
+        if(pw == null || pw.equals("") || pw.length() < 1) {
+            return false;
+        }
+        return true;
     }
 }

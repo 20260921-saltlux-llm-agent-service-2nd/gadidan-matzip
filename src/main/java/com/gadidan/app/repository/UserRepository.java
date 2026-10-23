@@ -16,8 +16,8 @@ public interface UserRepository {
     /// 로그인 시도
     /// @param userId   로그인할 User의 아이디
     /// @param password 로그인할 User의 패스워드
-    /// @return 로그인 성공/실패 여부에 따른 Boolean 값
-    public boolean login(String userId, String password);
+    /// @return 로그인 유저 객체
+    public UserDto login(String userId, String password);
 
     /// 로그아웃
     /// @return 로그아웃 성공/실패 여부에 따른 Boolean 값
