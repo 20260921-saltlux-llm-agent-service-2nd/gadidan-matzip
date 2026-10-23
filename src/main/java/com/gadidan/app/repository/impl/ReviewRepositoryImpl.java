@@ -6,6 +6,7 @@ import com.gadidan.app.dto.RestaurantDto;
 import com.gadidan.app.dto.ReviewDto;
 import com.gadidan.app.dto.UserDto;
 import com.gadidan.app.repository.ReviewRepository;
+import com.gadidan.app.view.ConsoleView;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,7 +30,50 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public List<ReviewDto> findReviewsByCategory(Category category) {
-        return List.of();  // todo: 더미값입니다. 수정 예정
+        Connection con = JDBCTemplate.getConnection();
+        PreparedStatement pstmt = null;
+        Properties prop = new Properties();
+        List<ReviewDto> reviewDtoList = new ArrayList<>();
+
+        try {
+            prop.loadFromXML(new FileInputStream("src/main/java/com/gadidan/app/mapper/query.xml"));
+            pstmt = con.prepareStatement(prop.getProperty("selectReviewsByCategory"));
+
+            pstmt.setString(1, String.valueOf(category.getCategory()));
+
+            ResultSet rset = pstmt.executeQuery();
+
+            while (rset.next()) {
+                RestaurantDto restaurantDto = new RestaurantDto();
+                restaurantDto.setRestaurantName(rset.getString("restaurant_name"));
+                restaurantDto.setBestMenu(rset.getString("best_menu"));
+                restaurantDto.setCategory(rset.getString("category"));
+                UserDto userDto = new UserDto();
+                userDto.setUserId(rset.getString("user_id"));
+                userDto.setName(rset.getString("name"));
+
+                reviewDtoList.add(new ReviewDto(
+                        rset.getInt("review_id"),
+                        rset.getInt("score"),
+                        rset.getString("comment"),
+                        rset.getObject("add_date", LocalDate.class),
+                        rset.getObject("modify_date", LocalDate.class),
+                        userDto,
+                        restaurantDto
+                ));
+            }
+        } catch (IOException | SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return reviewDtoList;
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.gadidan.app.repository.ReviewRepository;
 import com.gadidan.app.repository.impl.ReviewRepositoryImpl;
 import com.gadidan.app.view.ConsoleView;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ReviewController {
@@ -37,5 +38,11 @@ public class ReviewController {
 
     public void findReviewsByCategory(Category category) {
         List<ReviewDto> results = repository.findReviewsByCategory(category);
+
+        if (!results.isEmpty()) {
+            ConsoleView.displayReviewList(repository.findReviewsByCategory(category));
+        } else {
+            ConsoleView.displayPrompt("현재 " + category.getCategory() + " 카테고리에 등록된 리뷰가 없어서 출력이 불가능합니다.");
+        }
     }
 }

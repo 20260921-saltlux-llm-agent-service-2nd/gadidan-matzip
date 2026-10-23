@@ -32,5 +32,13 @@
         FROM tbl_user
         WHERE user_id = ? AND user_pw = ?
     </entry>
+    
+    <entry key="selectReviewsByCategory">
+        select *
+        from tbl_review v
+        join tbl_restaurant r on v.restaurant_id = r.restaurant_id
+        join tbl_user u on v.tbl_user_id = u.id
+        where r.category = ?
+    </entry>
 
 </properties>
