@@ -10,6 +10,7 @@ import com.gadidan.app.dto.RestaurantDto;
 import com.gadidan.app.dto.ReviewDto;
 import com.gadidan.app.view.ConsoleView;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -198,19 +199,34 @@ public class Application {
     ///
     /// @param scanner: 콘솔 입력에 사용하는 Scanner입니다.
     private static void updateReview(Scanner scanner) {
+        List<ReviewDto> results = reviewController.findMyReviewsByRestaurant();
+
+        if (results.isEmpty()) {
+            return;
+        }
+
         ConsoleView.displayMessage("리뷰 수정");
-        // TODO: UserSession 사용자 본인의 리뷰 목록을 조회해 출력합니다.
-        ConsoleView.displayMessage(
-                "본인이 작성한 리뷰 목록을 표시할 예정입니다. (연동 전)");
+
         int reviewNumber = readNumber(scanner, "수정할 리뷰의 목록 번호: ");
-        String restaurantName = readText(scanner, "수정할 식당명: ");
+
+        if(reviewNumber < 0 || reviewNumber > results.size()) {
+            ConsoleView.displayMessage("잘못된 목록번호입니다.");
+            return;
+        }
+
+//        String restaurantName = readText(scanner, "수정할 식당명: ");
         int rating = readNumber(scanner, "수정할 별점(정수): ");
-        String mainMenu = readText(scanner, "수정할 대표메뉴: ");
+//        String mainMenu = readText(scanner, "수정할 대표메뉴: ");
         String comment = readText(scanner, "수정할 한줄평: ");
 
-        // TODO: 목록 번호에 해당하는 본인의 리뷰를 입력값으로 수정합니다.
-        ConsoleView.displayMessage(
-                reviewNumber + "번 리뷰 수정 입력을 받았습니다. (처리 예정)");
+        ReviewDto reviewDto = new ReviewDto();
+        reviewDto.setReviewId(results.get(reviewNumber - 1).getReviewId());
+        reviewDto.setScore(rating);
+        reviewDto.setComment(comment);
+        reviewDto.setTblUser(UserSession.getUserSession());
+        reviewDto.setRestaurant(results.get(reviewNumber - 1).getRestaurant());
+
+        reviewController.updateReview(reviewDto);
     }
 
     /// 카테고리 번호를 입력받아 해당 열거 값을 반환하는 함수
