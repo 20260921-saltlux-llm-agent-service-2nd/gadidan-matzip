@@ -156,10 +156,9 @@ public class Application {
         String mainMenu = readText(scanner, "대표메뉴: ");
         String comment = readText(scanner, "한줄평: ");
 
-        int restaurantId = restaurantController.checkRestaurantExists(restaurantName);
+        int restaurantId = restaurantController.findRestaurantIdByName(restaurantName);
 
         RestaurantDto restaurantDto = new RestaurantDto();
-        restaurantDto.setRestaurantId(restaurantId);
         restaurantDto.setRestaurantName(restaurantName);
         restaurantDto.setBestMenu(mainMenu);
         restaurantDto.setCategory(category.getCategory());

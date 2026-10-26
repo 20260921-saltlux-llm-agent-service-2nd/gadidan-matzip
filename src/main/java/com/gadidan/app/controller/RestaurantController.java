@@ -12,7 +12,7 @@ public class RestaurantController {
         repository = new RestaurantRepositoryImpl();
     }
 
-    public int checkRestaurantExists(String restaurantName) {
+    public int findRestaurantIdByName(String restaurantName) {
         int result = repository.findRestaurantByName(restaurantName);
 
         if (result > 0) {
