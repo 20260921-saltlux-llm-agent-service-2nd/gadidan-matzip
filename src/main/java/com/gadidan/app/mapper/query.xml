@@ -32,7 +32,23 @@
         FROM tbl_user
         WHERE user_id = ? AND user_pw = ?
     </entry>
+
+    <entry key="insertRestaurant">
+        insert into tbl_restaurant (restaurant_name, best_menu, category)
+        values (?, ?, ?)
+    </entry>
+
+    <entry key="insertReview">
+        insert into tbl_review (score, comment, add_date, tbl_user_id, restaurant_id)
+        values (?, ?, now(), ?, ?)
+    </entry>
     
+    <entry key="selectRestaurantByName">
+        select *
+        from tbl_restaurant
+        where restaurant_name = ?
+    </entry>
+
     <entry key="selectReviewsByCategory">
         select *
         from tbl_review v
@@ -40,5 +56,5 @@
         join tbl_user u on v.tbl_user_id = u.id
         where r.category = ?
     </entry>
-
+    
 </properties>

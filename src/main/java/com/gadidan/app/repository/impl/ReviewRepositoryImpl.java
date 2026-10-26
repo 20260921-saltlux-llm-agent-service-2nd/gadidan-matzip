@@ -25,7 +25,26 @@ import java.util.Properties;
 public class ReviewRepositoryImpl implements ReviewRepository {
     @Override
     public int save(ReviewDto review) {
-        return 0;  // todo: 더미값입니다. 수정 예정
+        Connection con = JDBCTemplate.getConnection();
+        PreparedStatement pstmt = null;
+        Properties prop = new Properties();
+        int result;
+
+        try {
+            prop.loadFromXML(new FileInputStream("src/main/java/com/gadidan/app/mapper/query.xml"));
+            pstmt = con.prepareStatement(prop.getProperty("insertReview"));
+
+            pstmt.setInt(1, review.getScore());
+            pstmt.setString(2, review.getComment());
+            pstmt.setInt(3, review.getTblUser().getId());
+            pstmt.setInt(4, review.getRestaurant().getRestaurantId());
+
+            result = pstmt.executeUpdate();
+        } catch (IOException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return result;
     }
 
     @Override
