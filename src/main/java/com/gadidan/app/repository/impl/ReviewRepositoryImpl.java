@@ -23,15 +23,27 @@ import java.util.Properties;
 
 /// ReviewRepositoryImpl 인터페이스를 구현한 클래스입니다.
 public class ReviewRepositoryImpl implements ReviewRepository {
+    Properties prop = new Properties();
+
+    public ReviewRepositoryImpl() {
+        try (
+                FileInputStream fis = new FileInputStream("src/main/java/com/gadidan/app/mapper/query.xml")
+        ) {
+            prop.loadFromXML(fis);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public int save(ReviewDto review) {
         Connection con = JDBCTemplate.getConnection();
         PreparedStatement pstmt = null;
-        Properties prop = new Properties();
         int result;
 
         try {
-            prop.loadFromXML(new FileInputStream("src/main/java/com/gadidan/app/mapper/query.xml"));
             pstmt = con.prepareStatement(prop.getProperty("insertReview"));
 
             pstmt.setInt(1, review.getScore());
@@ -40,7 +52,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
             pstmt.setInt(4, review.getRestaurant().getRestaurantId());
 
             result = pstmt.executeUpdate();
-        } catch (IOException | SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
@@ -49,15 +61,12 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public List<ReviewDto> findReviewsByCategory(Category category) {
-        Connection con = JDBCTemplate.getConnection();
-        PreparedStatement pstmt = null;
-        Properties prop = new Properties();
         List<ReviewDto> reviewDtoList = new ArrayList<>();
 
-        try {
-            prop.loadFromXML(new FileInputStream("src/main/java/com/gadidan/app/mapper/query.xml"));
-            pstmt = con.prepareStatement(prop.getProperty("selectReviewsByCategory"));
-
+        try (
+                Connection con = JDBCTemplate.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(prop.getProperty("selectReviewsByCategory"));
+        ) {
             pstmt.setString(1, String.valueOf(category.getCategory()));
 
             ResultSet rset = pstmt.executeQuery();
@@ -81,32 +90,21 @@ public class ReviewRepositoryImpl implements ReviewRepository {
                         restaurantDto
                 ));
             }
-        } catch (IOException | SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
         return reviewDtoList;
     }
 
     @Override
     public List<ReviewDto> findReviewsByScoreDesc() {
-        Connection con = JDBCTemplate.getConnection();
-        PreparedStatement pstmt = null;
-        Properties prop = new Properties();
         List<ReviewDto> reviewDtoList = new ArrayList<>();
 
-        try {
-            prop.loadFromXML(new FileInputStream("src/main/java/com/gadidan/app/mapper/query.xml"));
-            String query = prop.getProperty("selectReviewsByScoreDesc");
+        try (
+                Connection con = JDBCTemplate.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(prop.getProperty("selectReviewsByScoreDesc"));
+        ) {
 
-            pstmt = con.prepareStatement(query);
 
             ResultSet rset = pstmt.executeQuery();
 
@@ -131,16 +129,8 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
             }
 
-        } catch (IOException | SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
 
         return reviewDtoList;
@@ -149,26 +139,17 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     @Override
     public List<ReviewDto> findReviews() {
 
-
-        Properties prop = new Properties();
-
         List<ReviewDto> reviewDtoList = new ArrayList<>();
-        Connection con = null;
-        PreparedStatement pstm = null;
         ResultSet rSet = null;
 
-        try {
-
-            con = JDBCTemplate.getConnection();
-            prop.loadFromXML(new FileInputStream("src/main/java/com/gadidan/app/mapper/query.xml"));
-            String query = prop.getProperty("selectAllReviews");
-            pstm = con.prepareStatement(query);
+        try (
+                Connection con = JDBCTemplate.getConnection();
+                PreparedStatement pstm = con.prepareStatement(prop.getProperty("selectAllReviews"));
+        ) {
             rSet = pstm.executeQuery();
 
 
             while (rSet.next()) {
-
-
                 UserDto userDto = new UserDto();
                 userDto.setUserId(rSet.getString("user_id"));
                 userDto.setName(rSet.getString("name"));
@@ -188,22 +169,13 @@ public class ReviewRepositoryImpl implements ReviewRepository {
                         userDto,
                         restaurantDto
                 ));
-
-
             }
 
-
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            JDBCTemplate.close(rSet);
-            JDBCTemplate.close(pstm);
-            JDBCTemplate.close(con);
         }
 
-
         return reviewDtoList;
-        // todo: 더미값입니다. 수정 예정
     }
 
     @Override
@@ -213,16 +185,12 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public int updateReview(ReviewDto review) {
-        Connection con = JDBCTemplate.getConnection();
-        PreparedStatement pstmt = null;
-        Properties prop = new Properties();
         int result;
 
-        try {
-            prop.loadFromXML(new FileInputStream("src/main/java/com/gadidan/app/mapper/query.xml"));
-            String query = prop.getProperty("updateReview");
-
-            pstmt = con.prepareStatement(query);
+        try (
+                Connection con = JDBCTemplate.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(prop.getProperty("updateReview"));
+        ) {
 
             pstmt.setInt(1, review.getScore());
             pstmt.setString(2, review.getComment());
@@ -231,12 +199,8 @@ public class ReviewRepositoryImpl implements ReviewRepository {
             pstmt.setInt(5, review.getTblUser().getId());
 
             result = pstmt.executeUpdate();
-
-        } catch (IOException | SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            JDBCTemplate.close(pstmt);
-            JDBCTemplate.close(con);
         }
 
         return result;
@@ -244,20 +208,14 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public List<ReviewDto> findMyReviews(int userId) {
-        Connection con = JDBCTemplate.getConnection();
-        PreparedStatement pstmt = null;
-        Properties prop = new Properties();
         ResultSet rset = null;
         List<ReviewDto> reviewDtoList = new ArrayList<>();
 
-        try {
-            prop.loadFromXML(new FileInputStream("src/main/java/com/gadidan/app/mapper/query.xml"));
-            String query = prop.getProperty("selectMyReviewsByRestaurant");
-
-            pstmt = con.prepareStatement(query);
-
+        try (
+                Connection con = JDBCTemplate.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(prop.getProperty("selectMyReviewsByRestaurant"));
+        ) {
             pstmt.setInt(1, userId);
-
             rset = pstmt.executeQuery();
 
             while (rset.next()) {
@@ -281,12 +239,8 @@ public class ReviewRepositoryImpl implements ReviewRepository {
                 ));
             }
 
-        } catch (IOException | SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            JDBCTemplate.close(rset);
-            JDBCTemplate.close(pstmt);
-            JDBCTemplate.close(con);
         }
 
         return reviewDtoList;
