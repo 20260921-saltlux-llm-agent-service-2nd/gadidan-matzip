@@ -42,7 +42,22 @@ public final class ConsoleView {
                             + ", 대표 메뉴 : " + reviewDto.getRestaurant().getBestMenu()
                             + ", 카테고리 : " + reviewDto.getRestaurant().getCategory()
                             + ", 한줄평 : " + reviewDto.getComment()
-                            + ", 등록 날짜 : " + reviewDto.getAddDate());
+                            + ", 등록 날짜 : " + reviewDto.getAddDate()
+                            + ", 수정 날짜 : " + (reviewDto.getModifyDate() == null ? "-" : reviewDto.getModifyDate()));
+        }
+    }
+
+    public static void displayNumberedReviewList(List<ReviewDto> reviewDtoList) {
+        for (int i = 0; i < reviewDtoList.size(); i++) {
+            ReviewDto reviewDto = reviewDtoList.get(i);
+
+            System.out.println((i + 1) + "번 식당 이름 : " + reviewDto.getRestaurant().getRestaurantName()
+                    + ", 별점 : " + reviewDto.getScore()
+                    + ", 대표 메뉴 : " + reviewDto.getRestaurant().getBestMenu()
+                    + ", 카테고리 : " + reviewDto.getRestaurant().getCategory()
+                    + ", 한줄평 : " + reviewDto.getComment()
+                    + ", 등록 날짜 : " + reviewDto.getAddDate()
+                    + ", 수정 날짜 : " + (reviewDto.getModifyDate() == null ? "-" : reviewDto.getModifyDate()));
         }
     }
 
