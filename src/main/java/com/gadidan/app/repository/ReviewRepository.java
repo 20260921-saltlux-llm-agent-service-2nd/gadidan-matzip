@@ -28,4 +28,14 @@ public interface ReviewRepository {
     /// @param reviewId 삭제하고자 하는 리뷰의 아이디
     /// @return 영향 받은 행의 수
     int deleteReview(int reviewId);
+
+    /// 리뷰 수정
+    /// @param review 수정할 리뷰 정보를 담은 ReviewDto 객체
+    /// @return 영향 받은 행의 수
+    int updateReview(ReviewDto review);
+
+    /// 특정 레스토랑에 작성한 본인 리뷰 조회
+    /// @param userId 로그인한 회원의 PK
+    /// @return 조건에 해당하는 리뷰 리스트
+    List<ReviewDto> findMyReviews(int userId);
 }

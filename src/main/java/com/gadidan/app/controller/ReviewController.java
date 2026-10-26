@@ -1,6 +1,7 @@
 package com.gadidan.app.controller;
 
 import com.gadidan.app.common.Category;
+import com.gadidan.app.common.UserSession;
 import com.gadidan.app.dto.ReviewDto;
 import com.gadidan.app.repository.ReviewRepository;
 import com.gadidan.app.repository.impl.ReviewRepositoryImpl;
@@ -55,5 +56,30 @@ public class ReviewController {
         }
 
         return result;
+    }
+
+    public int updateReview(ReviewDto review) {
+        int result = repository.updateReview(review);
+
+        if (result > 0) {
+            ConsoleView.displayMessage("리뷰 수정이 완료되었습니다.");
+        } else {
+            ConsoleView.displayMessage("리뷰 수정에 실패하였습니다.");
+        }
+
+        return result;
+    }
+
+    public List<ReviewDto> findMyReviewsByRestaurant() {
+        List<ReviewDto> results = repository.findMyReviews(UserSession.getUserSession().getId());
+        String userName = UserSession.getUserSession().getName();
+
+        if (!results.isEmpty()) {
+            ConsoleView.displayNumberedReviewList(results);
+        } else {
+            ConsoleView.displayMessage(userName + "님이 작성한 리뷰가 없습니다.");
+        }
+
+        return results;
     }
 }
