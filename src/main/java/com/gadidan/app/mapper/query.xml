@@ -42,7 +42,7 @@
         insert into tbl_review (score, comment, add_date, tbl_user_id, restaurant_id)
         values (?, ?, now(), ?, ?)
     </entry>
-    
+
     <entry key="selectRestaurantByName">
         select *
         from tbl_restaurant
@@ -56,5 +56,12 @@
         join tbl_user u on v.tbl_user_id = u.id
         where r.category = ?
     </entry>
-    
+
+    <entry key="cancelMembershipQuery">
+        DELETE
+        FROM tbl_user
+        WHERE user_id = ? AND user_pw = ?;
+    </entry>
+
+
 </properties>

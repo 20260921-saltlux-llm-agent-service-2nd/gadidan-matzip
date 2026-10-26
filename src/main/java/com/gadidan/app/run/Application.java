@@ -134,10 +134,7 @@ public class Application {
                     userController.logout();
                 }
                 case 5 -> {
-                    // TODO: 회원 탈퇴 처리 후 UserSession을 비웁니다.
-                    ConsoleView.displayMessage(
-                            "회원 탈퇴 처리 예정입니다. 첫 화면으로 이동합니다.");
-                    userController.logout();
+                    cancelMembership(scanner);
                 }
                 default -> ConsoleView.displayMessage(
                         "메뉴에 있는 번호를 입력해 주세요.");
@@ -233,6 +230,14 @@ public class Application {
                 return categories[choice - 1];
             }
             ConsoleView.displayMessage("목록에 있는 번호를 입력해 주세요.");
+        }
+    }
+
+    private static void cancelMembership(Scanner scanner){
+        String userId = readText(scanner, "ID를 입력하세요: ");
+        String password = readText(scanner, "패스워드를 입력하세요: ");
+        if(userController.cancelMembership(userId, password)) {
+            userController.logout();
         }
     }
 

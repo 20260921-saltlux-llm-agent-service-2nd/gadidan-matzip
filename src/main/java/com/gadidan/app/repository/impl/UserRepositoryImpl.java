@@ -71,7 +71,20 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public int delete(UserDto user) {
-        return 0; // todo: 더미값입니다. 수정 예정
+        int result = 0;
+
+        try (
+                Connection con = JDBCTemplate.getConnection();
+                PreparedStatement pstm = con.prepareStatement(prop.getProperty("cancelMembershipQuery"));
+        ) {
+            pstm.setString(1, user.getUserId());
+            pstm.setString(2, user.getUserPw());
+            result = pstm.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return result;
     }
 
     @Override

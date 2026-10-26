@@ -77,22 +77,51 @@ public class UserController {
         }
     }
 
+    public boolean cancelMembership(String id, String pw) {
+        boolean result = false;
+        if (!validateId(id)) {
+            ConsoleView.displayMessage("유효한 ID를 입력해 주세요.");
+            return false;
+        }
+        if (!validatePw(pw)) {
+            ConsoleView.displayMessage("유효한 비밀번호를 입력해 주세요.");
+            return false;
+        }
+
+        if (!UserSession.isLogin()) {
+            ConsoleView.displayMessage("현재 로그인된 사용자가 없습니다.");
+            return false;
+        }
+
+        if (id.equals(UserSession.getUserSession().getUserId()) && // 입력한 ID가 현재 로그인된 사용자의 ID와 일치하는지
+                pw.equals(UserSession.getUserSession().getUserPw())) { // 입력한 PW가 현재 로그인된 사용자의 PW와 일치하는지
+            if (repository.delete(UserSession.getUserSession()) == 1) {
+                result = true;
+                ConsoleView.displayMessage("회원 탈퇴가 완료되었습니다.");
+            }
+        } else {
+            ConsoleView.displayMessage("현재 로그인된 사용자 정보와 입력하신 정보가 일치하지 않습니다.");
+            return false;
+        }
+        return result;
+    }
+
     public void logout() {
         UserSession.removeUserInfo();
-        if(!UserSession.isLogin()) {
+        if (!UserSession.isLogin()) {
             ConsoleView.displayMessage("로그아웃되었습니다.");
         }
     }
 
     private boolean validateId(String id) {
-        if(id == null || id.equals("") || id.length() < 1) {
+        if (id == null || id.equals("") || id.length() < 1) {
             return false;
         }
         return true;
     }
 
     private boolean validatePw(String pw) {
-        if(pw == null || pw.equals("") || pw.length() < 1) {
+        if (pw == null || pw.equals("") || pw.length() < 1) {
             return false;
         }
         return true;
