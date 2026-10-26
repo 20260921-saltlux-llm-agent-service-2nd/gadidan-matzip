@@ -19,19 +19,13 @@ public class UserRepositoryImpl implements UserRepository {
     Properties prop = new Properties();
 
     public UserRepositoryImpl() {
-
-
         try (FileInputStream fin = new FileInputStream("src/main/java/com/gadidan/app/mapper/query.xml")) {
             prop.loadFromXML(fin);
-
-
         } catch (InvalidPropertiesFormatException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 
 
@@ -53,8 +47,6 @@ public class UserRepositoryImpl implements UserRepository {
             pstm.setString(3, user.getName());
 
             result = pstm.executeUpdate();
-
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -112,10 +104,6 @@ public class UserRepositoryImpl implements UserRepository {
         return user;
     }
 
-    @Override
-    public boolean logout() {
-        return false; // todo: 더미값입니다. 수정 예정
-    }
 
     @Override
     public UserDto findUserById(String id) {
@@ -141,19 +129,16 @@ public class UserRepositoryImpl implements UserRepository {
                 return result;
             }
             while (result1.next()) {
-
                 result = new UserDto();
                 result.setId(result1.getInt("id"));
                 result.setUserId(result1.getString("user_id"));
                 result.setUserPw(result1.getNString("user_pw"));
                 result.setName(result1.getString("name"));
-
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
 
         return result;
     }

@@ -150,7 +150,19 @@ public class Application {
         ConsoleView.displayMessage("리뷰 등록");
         String restaurantName = readText(scanner, "식당명: ");
         Category category = readCategory(scanner);
-        int rating = readNumber(scanner, "별점(정수): ");
+
+        int rating = 0;
+
+        while (true) {
+            rating = readNumber(scanner, "수정할 별점(정수): ");
+            if (rating < 1 || rating >= 5) {
+                ConsoleView.displayMessage("잘못된 별점입니다." + "\n" + "1~5 사이의 정수를 입력해주세요");
+                return;
+            } else {
+                break;
+            }
+        }
+
         String mainMenu = readText(scanner, "대표메뉴: ");
         String comment = readText(scanner, "한줄평: ");
 
@@ -209,13 +221,24 @@ public class Application {
 
         int reviewNumber = readNumber(scanner, "수정할 리뷰의 목록 번호: ");
 
-        if(reviewNumber < 0 || reviewNumber > results.size()) {
+        if(reviewNumber < 1 || reviewNumber > results.size()) {
             ConsoleView.displayMessage("잘못된 목록번호입니다.");
             return;
         }
 
 //        String restaurantName = readText(scanner, "수정할 식당명: ");
-        int rating = readNumber(scanner, "수정할 별점(정수): ");
+        int rating = 0;
+
+        while (true) {
+            rating = readNumber(scanner, "수정할 별점(정수): ");
+            if (rating < 1 || rating >= 5) {
+                ConsoleView.displayMessage("잘못된 별점입니다." + "\n" + "1~5 사이의 정수를 입력해주세요");
+                return;
+            } else {
+                break;
+            }
+        }
+
 //        String mainMenu = readText(scanner, "수정할 대표메뉴: ");
         String comment = readText(scanner, "수정할 한줄평: ");
 
