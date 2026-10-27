@@ -1,5 +1,55 @@
 ## 📚 가디단 맛집 등록 조회 서비스
 
+### 빌드 및 실행 방법
+
+#### 1. 저장소 복제
+
+```bash
+git clone https://github.com/20260921-saltlux-llm-agent-service-2nd/gadidan-matzip.git
+cd gadidan-matzip
+```
+
+#### 2. 개발 환경 설정
+
+- JDK 21을 설치하고 `JAVA_HOME`을 설정합니다.
+- IntelliJ IDEA에서 프로젝트를 열고 Gradle 프로젝트를 동기화합니다.
+- 프로젝트 SDK와 Gradle JVM을 JDK 21로 설정합니다.
+
+#### 3. DB 설정 파일 추가
+
+프로젝트 루트를 기준으로 다음 경로에 `db.properties` 파일을 생성합니다.
+
+```text
+src/main/resources/db.properties
+```
+
+`db.properties`에 입력할 설정 항목과 값은 담당자에게 안내받아 작성합니다.
+
+#### 4. 빌드
+
+프로젝트 루트에서 운영체제에 맞는 명령어를 실행합니다.
+
+Windows (PowerShell):
+
+```powershell
+.\gradlew.bat build
+```
+
+macOS / Linux:
+
+```bash
+chmod +x gradlew
+./gradlew build
+```
+
+#### 5. 실행
+
+IntelliJ IDEA의 `Settings → Build, Execution, Deployment → Build Tools → Gradle`에서
+`Build and run using`을 `IntelliJ IDEA`로 설정합니다.
+`com.gadidan.app.run.Application` 클래스의 `main` 메서드를 실행합니다.
+실행 구성의 작업 디렉터리(`Working directory`)는 프로젝트 루트로 설정합니다.
+
+---
 
 ### 🎯 프로젝트 목표
 1. SQL 문법을 익히고, DB 모델링 개념을 학습합니다.
@@ -140,3 +190,23 @@ src/
 - 리뷰 등록·수정 시 별점 범위를 벗어나면 안내 후 로그인 후 메뉴로 돌아갑니다.
 - DB 연결에 실패하면 오류를 안내하고 시작 화면으로 돌아갑니다.
 - 콘솔 입력이 끝나면 프로그램을 종료합니다.
+
+### 실행 화면
+
+#### 회원가입
+![회원가입](src/main/resources/회원가입.png)
+
+#### 로그인
+![로그인](src/main/resources/로그인.png)
+
+#### 리뷰 조회
+![리뷰 조회](src/main/resources/리뷰%20조회.png)
+
+#### 리뷰 등록
+![리뷰 등록](src/main/resources/리뷰%20등록.png)
+
+#### 리뷰 수정
+![리뷰 수정](src/main/resources/리뷰%20수정.png)
+
+#### 리뷰 삭제
+![리뷰 삭제](src/main/resources/리뷰%20삭제.png)
