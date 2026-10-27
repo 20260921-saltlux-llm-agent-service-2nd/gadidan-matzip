@@ -218,7 +218,7 @@ public class Application {
 
         reviewController.deleteReview(userSession, reviewId);
         ConsoleView.displayMessage(
-                reviewId + "번 리뷰 삭제 입력을 받았습니다.");
+                reviewNumber + "번 리뷰 삭제 입력을 받았습니다.");
     }
 
     /// 로그인 -> 리뷰 수정 시 호출되는 함수
