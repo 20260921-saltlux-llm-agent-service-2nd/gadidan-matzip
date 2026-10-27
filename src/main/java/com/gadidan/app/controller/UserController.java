@@ -1,7 +1,7 @@
 package com.gadidan.app.controller;
 
 import com.gadidan.app.common.UserSession;
-import com.gadidan.app.dto.UserDto;
+import com.gadidan.app.model.dto.UserDto;
 import com.gadidan.app.repository.UserRepository;
 import com.gadidan.app.repository.impl.UserRepositoryImpl;
 import com.gadidan.app.view.ConsoleView;

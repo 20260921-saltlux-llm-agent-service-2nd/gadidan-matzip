@@ -1,6 +1,6 @@
 package com.gadidan.app.controller;
 
-import com.gadidan.app.dto.RestaurantDto;
+import com.gadidan.app.model.dto.RestaurantDto;
 import com.gadidan.app.repository.RestaurantRepository;
 import com.gadidan.app.repository.impl.RestaurantRepositoryImpl;
 import com.gadidan.app.view.ConsoleView;

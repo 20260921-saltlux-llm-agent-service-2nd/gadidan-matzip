@@ -1,11 +1,10 @@
 package com.gadidan.app.repository.impl;
 
 import com.gadidan.app.common.JDBCTemplate;
-import com.gadidan.app.dto.UserDto;
+import com.gadidan.app.model.dto.UserDto;
 import com.gadidan.app.repository.UserRepository;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

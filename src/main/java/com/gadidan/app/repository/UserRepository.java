@@ -1,6 +1,6 @@
 package com.gadidan.app.repository;
 
-import com.gadidan.app.dto.UserDto;
+import com.gadidan.app.model.dto.UserDto;
 
 public interface UserRepository {
     /// 회원 가입
