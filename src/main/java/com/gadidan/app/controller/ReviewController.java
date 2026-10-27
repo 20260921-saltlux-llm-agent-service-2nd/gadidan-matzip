@@ -82,4 +82,18 @@ public class ReviewController {
 
         return results;
     }
+
+    public int deleteReview(int userId, int reviewId){
+
+        int result = repository.deleteReview(userId, reviewId);
+
+        if(result !=0){
+            ConsoleView.displayMessage("리뷰가 삭제되었습니다");
+            return result;
+        }else{
+            ConsoleView.displayMessage("삭제할 리뷰가 없습니다");
+        }
+
+        return 0;
+    }
 }

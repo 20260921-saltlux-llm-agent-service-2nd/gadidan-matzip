@@ -179,8 +179,30 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     }
 
     @Override
-    public int deleteReview(int reviewId) {
-        return 0;  // todo: 더미값입니다. 수정 예정
+    public int deleteReview(int userId, int reviewId) {
+
+
+            List<ReviewDto> reviewDtoList = new ArrayList<>();
+            Connection con = null;
+            PreparedStatement pstm = null;
+            int result = 0;
+
+            try {
+
+                con = JDBCTemplate.getConnection();
+                String query = prop.getProperty("deleteReviewUserId");
+                pstm = con.prepareStatement(query);
+                pstm.setInt(1, userId);
+                pstm.setInt(2,reviewId);
+                result = pstm.executeUpdate();
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } finally {
+                JDBCTemplate.close(pstm);
+                JDBCTemplate.close(con);
+            }
+        return result;
     }
 
     @Override
