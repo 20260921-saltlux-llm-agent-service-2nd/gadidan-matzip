@@ -3,6 +3,7 @@
 ## 1. DTO 클래스 구현
 
 **Commit:** `feat: implement DTO classes`
+**Commit:** `feat: implement DTO classes` | **SHA** `133df887`
 
 **작업 내용**
 
@@ -25,6 +26,7 @@
 ## 2. 리뷰 별점순 조회
 
 **Commit:** `feat: sort reviews by rating`
+**Commit:** `feat: sort reviews by rating` | **SHA** `9fb29ff0`
 
 **작업 내용**
 
@@ -51,6 +53,7 @@
 ## 3. 리뷰 카테고리별 조회
 
 **Commit:** `feat: implement review filtering by category`
+**Commit:** `feat: implement review filtering by category` | **SHA** `2fe99a1b`
 
 **작업 내용**
 
@@ -77,6 +80,7 @@
 ## 4. 식당 및 리뷰 등록
 
 **Commit:** `feat: implement restaurant and review registration`
+**Commit:** `feat: implement restaurant and review registration` | **SHA** `25fdf6d7`
 
 **작업 내용**
 
@@ -106,6 +110,7 @@
 ## 5. 리뷰 수정
 
 **Commit:** `feat: implement review update functionality`
+**Commit:** `feat: implement review update functionality` | **SHA** `9bd7d273`
 
 **작업 내용**
 
