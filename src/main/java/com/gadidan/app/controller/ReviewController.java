@@ -32,7 +32,7 @@ public class ReviewController {
         if (!results.isEmpty()) {
             ConsoleView.displayReviewList(repository.findReviewsByScoreDesc());
         } else {
-            ConsoleView.displayPrompt("현재 등록된 리뷰가 없어서 출력이 불가능합니다.");
+            ConsoleView.displayMessage("현재 등록된 리뷰가 없어서 출력이 불가능합니다.");
         }
     }
 
@@ -42,7 +42,7 @@ public class ReviewController {
         if (!results.isEmpty()) {
             ConsoleView.displayReviewList(repository.findReviewsByCategory(category));
         } else {
-            ConsoleView.displayPrompt("현재 " + category.getCategory() + " 카테고리에 등록된 리뷰가 없어서 출력이 불가능합니다.");
+            ConsoleView.displayMessage("현재 " + category.getCategory() + " 카테고리에 등록된 리뷰가 없어서 출력이 불가능합니다.");
         }
     }
 
