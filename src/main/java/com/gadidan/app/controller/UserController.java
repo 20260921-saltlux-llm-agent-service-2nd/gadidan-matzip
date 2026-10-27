@@ -32,7 +32,7 @@ public class UserController {
             user.setName(name);
 
 
-            if (!isDuplicatedUser(user.getUserId())) {
+            if (!isDuplicatedUser(user.getUserId()) && id.matches("[a-zA-Z0-9가-힣]+")) {
                 return repository.save(user) > 0 ? true : false;
             } else {
                 return false;
@@ -46,7 +46,7 @@ public class UserController {
             user.setUserId(id);
             user.setUserPw(pw);
 
-            if (!isDuplicatedUser(user.getUserId())) {
+            if (!isDuplicatedUser(user.getUserId()) && id.matches("[a-zA-Z0-9가-힣]+")) {
                 return repository.save(user) > 0 ? true : false;
             } else {
                 return false;
