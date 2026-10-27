@@ -78,5 +78,9 @@
         where v.tbl_user_id = ?
     </entry>
 
+    <entry key="deleteReviewUserId">
+        delete from tbl_review where tbl_user_id = ? and review_id = ?
+    </entry>
+
 
 </properties>
