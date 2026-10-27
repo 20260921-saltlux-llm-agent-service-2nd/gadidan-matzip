@@ -27,7 +27,7 @@
 ## 2. 회원가입
 
 **Commit:** `feat: implementing-user-registration-functionality`
-**Commit:** `feat: implementing-user-registration-functionality` | **SHA** `bb12bb5c`
+**Commit:** `feat: implementing-user-registration-functionality` | **SHA** `81492ef8`
 
 **작업 내용**
 
