@@ -6,8 +6,8 @@ import com.gadidan.app.common.UserSession;
 import com.gadidan.app.controller.RestaurantController;
 import com.gadidan.app.controller.ReviewController;
 import com.gadidan.app.controller.UserController;
-import com.gadidan.app.dto.RestaurantDto;
-import com.gadidan.app.dto.ReviewDto;
+import com.gadidan.app.model.dto.RestaurantDto;
+import com.gadidan.app.model.dto.ReviewDto;
 import com.gadidan.app.view.ConsoleView;
 
 import java.util.List;
@@ -196,15 +196,29 @@ public class Application {
     ///
     /// @param scanner: 콘솔 입력에 사용하는 Scanner입니다.
     private static void deleteReview(Scanner scanner) {
-        ConsoleView.displayMessage("리뷰 삭제");
+
         // TODO: UserSession 사용자 본인의 리뷰 목록을 조회해 출력합니다.
-        ConsoleView.displayMessage(
-                "본인이 작성한 리뷰 목록을 표시할 예정입니다. (연동 전)");
+
+        List<ReviewDto>results = reviewController.findMyReviewsByRestaurant();
+
+        if(results.isEmpty()){
+            return;
+        }
+
+        ConsoleView.displayMessage("리뷰 삭제");
         int reviewNumber = readNumber(scanner, "삭제할 리뷰의 목록 번호: ");
 
-        // TODO: 목록 번호에 해당하는 본인의 리뷰를 삭제합니다.
+        if(reviewNumber <1 || reviewNumber > results.size()){
+            ConsoleView.displayMessage("잘못된 번호입니다");
+            return;
+        }
+        // index : 리스트의 인덱스. 리스트의 숫자.
+        int reviewId = results.get(reviewNumber -1).getReviewId();
+        int userSession = UserSession.getUserSession().getId();
+
+        reviewController.deleteReview(userSession, reviewId);
         ConsoleView.displayMessage(
-                reviewNumber + "번 리뷰 삭제 입력을 받았습니다. (처리 예정)");
+                reviewId + "번 리뷰 삭제 입력을 받았습니다.");
     }
 
     /// 로그인 -> 리뷰 수정 시 호출되는 함수

@@ -1,7 +1,7 @@
 package com.gadidan.app.repository;
 
 import com.gadidan.app.common.Category;
-import com.gadidan.app.dto.ReviewDto;
+import com.gadidan.app.model.dto.ReviewDto;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public interface ReviewRepository {
     /// 리뷰 삭제
     /// @param reviewId 삭제하고자 하는 리뷰의 아이디
     /// @return 영향 받은 행의 수
-    int deleteReview(int reviewId);
+    int deleteReview(int userId, int reviewId);
 
     /// 리뷰 수정
     /// @param review 수정할 리뷰 정보를 담은 ReviewDto 객체

@@ -2,7 +2,7 @@ package com.gadidan.app.controller;
 
 import com.gadidan.app.common.Category;
 import com.gadidan.app.common.UserSession;
-import com.gadidan.app.dto.ReviewDto;
+import com.gadidan.app.model.dto.ReviewDto;
 import com.gadidan.app.repository.ReviewRepository;
 import com.gadidan.app.repository.impl.ReviewRepositoryImpl;
 import com.gadidan.app.view.ConsoleView;
@@ -81,5 +81,19 @@ public class ReviewController {
         }
 
         return results;
+    }
+
+    public int deleteReview(int userId, int reviewId){
+
+        int result = repository.deleteReview(userId, reviewId);
+
+        if(result !=0){
+            ConsoleView.displayMessage("리뷰가 삭제되었습니다");
+            return result;
+        }else{
+            ConsoleView.displayMessage("삭제할 리뷰가 없습니다");
+        }
+
+        return 0;
     }
 }

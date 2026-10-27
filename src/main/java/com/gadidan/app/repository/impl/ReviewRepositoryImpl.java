@@ -2,11 +2,10 @@ package com.gadidan.app.repository.impl;
 
 import com.gadidan.app.common.Category;
 import com.gadidan.app.common.JDBCTemplate;
-import com.gadidan.app.dto.RestaurantDto;
-import com.gadidan.app.dto.ReviewDto;
-import com.gadidan.app.dto.UserDto;
+import com.gadidan.app.model.dto.RestaurantDto;
+import com.gadidan.app.model.dto.ReviewDto;
+import com.gadidan.app.model.dto.UserDto;
 import com.gadidan.app.repository.ReviewRepository;
-import com.gadidan.app.view.ConsoleView;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -17,7 +16,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.InvalidPropertiesFormatException;
 import java.util.List;
 import java.util.Properties;
 
@@ -179,8 +177,30 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     }
 
     @Override
-    public int deleteReview(int reviewId) {
-        return 0;  // todo: 더미값입니다. 수정 예정
+    public int deleteReview(int userId, int reviewId) {
+
+
+            List<ReviewDto> reviewDtoList = new ArrayList<>();
+            Connection con = null;
+            PreparedStatement pstm = null;
+            int result = 0;
+
+            try {
+
+                con = JDBCTemplate.getConnection();
+                String query = prop.getProperty("deleteReviewUserId");
+                pstm = con.prepareStatement(query);
+                pstm.setInt(1, userId);
+                pstm.setInt(2,reviewId);
+                result = pstm.executeUpdate();
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } finally {
+                JDBCTemplate.close(pstm);
+                JDBCTemplate.close(con);
+            }
+        return result;
     }
 
     @Override

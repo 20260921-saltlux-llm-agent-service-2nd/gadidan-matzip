@@ -1,6 +1,6 @@
 package com.gadidan.app.view;
 
-import com.gadidan.app.dto.ReviewDto;
+import com.gadidan.app.model.dto.ReviewDto;
 
 import java.util.List;
 
