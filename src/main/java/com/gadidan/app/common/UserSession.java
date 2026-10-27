@@ -1,6 +1,6 @@
 package com.gadidan.app.common;
 
-import com.gadidan.app.dto.UserDto;
+import com.gadidan.app.model.dto.UserDto;
 
 /// 유저 로그인 상태를 관리하는 세션입니다.
 public class UserSession {

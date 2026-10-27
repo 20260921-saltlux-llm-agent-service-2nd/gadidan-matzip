@@ -2,11 +2,10 @@ package com.gadidan.app.repository.impl;
 
 import com.gadidan.app.common.Category;
 import com.gadidan.app.common.JDBCTemplate;
-import com.gadidan.app.dto.RestaurantDto;
-import com.gadidan.app.dto.ReviewDto;
-import com.gadidan.app.dto.UserDto;
+import com.gadidan.app.model.dto.RestaurantDto;
+import com.gadidan.app.model.dto.ReviewDto;
+import com.gadidan.app.model.dto.UserDto;
 import com.gadidan.app.repository.ReviewRepository;
-import com.gadidan.app.view.ConsoleView;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -17,7 +16,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.InvalidPropertiesFormatException;
 import java.util.List;
 import java.util.Properties;
 

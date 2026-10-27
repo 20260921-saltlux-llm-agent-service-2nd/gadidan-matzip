@@ -1,4 +1,4 @@
-package com.gadidan.app.dto;
+package com.gadidan.app.model.dto;
 
 import lombok.*;
 

@@ -6,8 +6,8 @@ import com.gadidan.app.common.UserSession;
 import com.gadidan.app.controller.RestaurantController;
 import com.gadidan.app.controller.ReviewController;
 import com.gadidan.app.controller.UserController;
-import com.gadidan.app.dto.RestaurantDto;
-import com.gadidan.app.dto.ReviewDto;
+import com.gadidan.app.model.dto.RestaurantDto;
+import com.gadidan.app.model.dto.ReviewDto;
 import com.gadidan.app.view.ConsoleView;
 
 import java.util.List;

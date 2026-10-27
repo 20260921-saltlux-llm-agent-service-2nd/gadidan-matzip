@@ -1,6 +1,6 @@
 package com.gadidan.app.repository;
 
-import com.gadidan.app.dto.RestaurantDto;
+import com.gadidan.app.model.dto.RestaurantDto;
 
 public interface RestaurantRepository {
 

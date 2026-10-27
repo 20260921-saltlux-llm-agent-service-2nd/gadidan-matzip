@@ -2,7 +2,7 @@ package com.gadidan.app.controller;
 
 import com.gadidan.app.common.Category;
 import com.gadidan.app.common.UserSession;
-import com.gadidan.app.dto.ReviewDto;
+import com.gadidan.app.model.dto.ReviewDto;
 import com.gadidan.app.repository.ReviewRepository;
 import com.gadidan.app.repository.impl.ReviewRepositoryImpl;
 import com.gadidan.app.view.ConsoleView;

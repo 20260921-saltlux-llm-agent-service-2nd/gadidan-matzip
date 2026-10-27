@@ -1,7 +1,7 @@
 package com.gadidan.app.repository.impl;
 
 import com.gadidan.app.common.JDBCTemplate;
-import com.gadidan.app.dto.RestaurantDto;
+import com.gadidan.app.model.dto.RestaurantDto;
 import com.gadidan.app.repository.RestaurantRepository;
 
 import java.io.FileInputStream;
