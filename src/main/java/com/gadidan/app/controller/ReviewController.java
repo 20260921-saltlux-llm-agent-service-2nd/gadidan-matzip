@@ -32,7 +32,7 @@ public class ReviewController {
         if (!results.isEmpty()) {
             ConsoleView.displayReviewList(repository.findReviewsByScoreDesc());
         } else {
-            ConsoleView.displayPrompt("현재 등록된 리뷰가 없어서 출력이 불가능합니다.");
+            ConsoleView.displayMessage("현재 등록된 리뷰가 없어서 출력이 불가능합니다.");
         }
     }
 
@@ -42,12 +42,17 @@ public class ReviewController {
         if (!results.isEmpty()) {
             ConsoleView.displayReviewList(repository.findReviewsByCategory(category));
         } else {
-            ConsoleView.displayPrompt("현재 " + category.getCategory() + " 카테고리에 등록된 리뷰가 없어서 출력이 불가능합니다.");
+            ConsoleView.displayMessage("현재 " + category.getCategory() + " 카테고리에 등록된 리뷰가 없어서 출력이 불가능합니다.");
         }
     }
 
     public int registerReview(ReviewDto reviewDto) {
+        if (reviewDto.getRestaurant().getRestaurantName().equals("")) {
+            ConsoleView.displayMessage("식당명이 비어있습니다. 다시 등록해 주세요.");
+            return 0;
+        }
         int result = repository.save(reviewDto);
+
 
         if (result > 0) {
             ConsoleView.displayMessage("리뷰 등록이 완료되었습니다.");
