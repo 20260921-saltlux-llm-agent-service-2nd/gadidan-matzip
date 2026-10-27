@@ -76,11 +76,11 @@
 
 ```sql
 
-SHOW CREATE TABLE tbl\_user;
+SHOW CREATE TABLE tbl_user;
 
-SHOW CREATE TABLE tbl\_restaurant;
+SHOW CREATE TABLE tbl_restaurant;
 
-SHOW CREATE TABLE tbl\_review;
+SHOW CREATE TABLE tbl_review;
 
 ```
 ---
