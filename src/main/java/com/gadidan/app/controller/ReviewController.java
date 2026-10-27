@@ -47,7 +47,12 @@ public class ReviewController {
     }
 
     public int registerReview(ReviewDto reviewDto) {
+        if (reviewDto.getRestaurant().getRestaurantName().equals("")) {
+            ConsoleView.displayMessage("식당명이 비어있습니다. 다시 등록해 주세요.");
+            return 0;
+        }
         int result = repository.save(reviewDto);
+
 
         if (result > 0) {
             ConsoleView.displayMessage("리뷰 등록이 완료되었습니다.");
