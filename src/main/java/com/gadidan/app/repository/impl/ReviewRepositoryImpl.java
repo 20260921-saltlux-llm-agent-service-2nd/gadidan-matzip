@@ -214,9 +214,11 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
             pstmt.setInt(1, review.getScore());
             pstmt.setString(2, review.getComment());
-            pstmt.setString(3, review.getRestaurant().getRestaurantName());
-            pstmt.setInt(4, review.getReviewId());
-            pstmt.setInt(5, review.getTblUser().getId());
+            pstmt.setString(3, review.getComment());
+            pstmt.setString(4, review.getComment());
+            pstmt.setString(5, review.getRestaurant().getRestaurantName());
+            pstmt.setInt(6, review.getReviewId());
+            pstmt.setInt(7, review.getTblUser().getId());
 
             result = pstmt.executeUpdate();
         } catch (SQLException e) {

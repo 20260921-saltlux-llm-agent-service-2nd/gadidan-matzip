@@ -64,10 +64,17 @@
     </entry>
     
     <entry key="updateReview">
-        update tbl_review v
-        join tbl_restaurant r on v.restaurant_id = r.restaurant_id
-        set v.score = ?, v.comment = ?, modify_date = now()
-        where r.restaurant_name = ? and v.review_id = ? and v.tbl_user_id = ?
+        UPDATE tbl_review v
+        JOIN tbl_restaurant r ON v.restaurant_id = r.restaurant_id
+        SET v.score = ?,
+        v.comment = CASE
+        WHEN ? IS NULL OR ? = '' THEN v.comment
+        ELSE ?
+        END,
+        v.modify_date = NOW()
+        WHERE r.restaurant_name = ?
+        AND v.review_id = ?
+        AND v.tbl_user_id = ?
     </entry>
 
     <entry key="selectMyReviewsByRestaurant">
