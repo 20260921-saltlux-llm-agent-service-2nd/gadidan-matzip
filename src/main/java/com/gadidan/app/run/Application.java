@@ -154,8 +154,8 @@ public class Application {
         int rating = 0;
 
         while (true) {
-            rating = readNumber(scanner, "등록할 별점(정수): ");
-            if (rating < 1 || rating >= 5) {
+            rating = readNumber(scanner, "수정할 별점(정수): ");
+            if (rating < 1 || rating > 5) {
                 ConsoleView.displayMessage("잘못된 별점입니다." + "\n" + "1~5 사이의 정수를 입력해주세요");
                 return;
             } else {
@@ -245,7 +245,7 @@ public class Application {
 
         while (true) {
             rating = readNumber(scanner, "수정할 별점(정수): ");
-            if (rating < 1 || rating >= 5) {
+            if (rating < 1 || rating > 5) {
                 ConsoleView.displayMessage("잘못된 별점입니다." + "\n" + "1~5 사이의 정수를 입력해주세요");
                 return;
             } else {
