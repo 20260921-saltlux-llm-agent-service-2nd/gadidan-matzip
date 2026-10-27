@@ -66,11 +66,6 @@ public class ReviewController {
     public int updateReview(ReviewDto review) {
         int result = repository.updateReview(review);
 
-//        if (review.getComment().equals("")) {
-//            ConsoleView.displayMessage("한줄평을 작성하지 않았습니다. 다시 작성해주세요.");
-//            return 0;
-//        }
-
         if (result > 0) {
             ConsoleView.displayMessage("리뷰 수정이 완료되었습니다.");
         } else {
